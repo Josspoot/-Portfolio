@@ -10,11 +10,30 @@
 
 .data {
   border: 1px solid;
-  border-radius: 5px;
+  border-radius: 10px;
   border-color: black;
 }
 
 .data:hover {
-  background-color: whitesmoke;
+  background-color: rgb(213, 213, 213);
   transition: 0.5s;
+  transform: translateY(-6px);
+  box-shadow: 5px 5px 5px rgb(93, 91, 91);
+}
+
+.container {
+  display: flex;
+  flex-direction: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.type {
+  font-weight: normal;
+}
+
+.img {
+  background: none;
+  width: 95px;
+  height: 90px;
 }
