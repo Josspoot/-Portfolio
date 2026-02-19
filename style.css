@@ -12,6 +12,8 @@
   border: 1px solid;
   border-radius: 10px;
   border-color: black;
+  height: 100%;
+  min-height: 280px;
 }
 
 .data:hover {
@@ -22,10 +24,11 @@
 }
 
 .container {
-  display: flex;
-  flex-direction: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
+  width: 100%;
+  align-items: stretch;
 }
 
 .type {
@@ -36,4 +39,14 @@
   background: none;
   width: 95px;
   height: 90px;
+}
+
+body {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.sub {
+  text-align: center;
+  font-family: cursive;
 }
