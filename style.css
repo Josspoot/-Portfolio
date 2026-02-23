@@ -80,10 +80,19 @@ h3 {
   margin: 10px;
 }
 
-.social {
+.git {
   background: none;
-  width: 50%;
-  height: 70%;
+  width: 450px;
+  height: 500px;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+}
+
+.linked {
+  background: none;
+  width: 350px;
+  height: 300px;
 }
 
 .social:hover {
@@ -91,4 +100,7 @@ h3 {
   transform: translateY(-6px);
   box-shadow: 0px 10px 25px rgba(59, 130, 246, 0.5);
   color: rgb(255, 255, 255);
+}
+
+.social-icon {
 }
