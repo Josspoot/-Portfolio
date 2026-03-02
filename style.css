@@ -99,7 +99,6 @@ h3 {
   background: none;
   border: none;
   outline: none;
-  text-decoration: none;
 }
 
 .btn:before,
@@ -113,7 +112,7 @@ h3 {
 
 .btn:hover {
   color: var(--def);
-  transition-delay: 0.3s;
+  transition-delay: 0.1s;
 }
 
 .btn:hover:before,
