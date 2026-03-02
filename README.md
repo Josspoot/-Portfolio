@@ -41,7 +41,7 @@ I am committed to continuous learning, exploring new technologies, and always pu
 
 * [**LinkedIn**](https://www.linkedin.com/in/josspoot/)
 * [**GitHub**](https://github.com/Josspoot)
-* [**Gmail**](josspootmateo@gmail.com)
+* My Gmail: (josspootmateo@gmail.com)
 
 
 ---
