@@ -13,6 +13,45 @@ body {
   --inv: #ffffff;
 }
 
+.skils {
+  margin: 100px auto;
+  width: 90%;
+  display: flex;
+  overflow-x: auto;
+}
+
+.skils::-webkit-scrollbar {
+  display: none;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  animation: spin 10s infinite linear;
+  padding-right: 1em;
+}
+
+.card {
+  flex: 0 0 5em;
+  height: 20%;
+  width: 100%;
+  padding: 1em;
+  background: #1e293b;
+  text-align: center;
+  align-content: center;
+}
+
+@keyframes spin {
+  from {
+    translate: 0;
+  }
+  to {
+    translate: -100%;
+  }
+}
+
 /* Tipografías y textos agrupados */
 .inf,
 .sub {
@@ -163,6 +202,15 @@ h3 {
 .from-left:after {
   left: 0;
 }
+
+.from-left:active,
+.from-bottom:active,
+.from-center:active,
+.from-top:active {
+  transition: 0.3s;
+  transform: translateY(-6px);
+}
+
 .from-left:hover:before,
 .from-left:hover:after {
   width: 100%;
