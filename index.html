@@ -1,365 +1,514 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Josué Poot</title>
-    <link rel="stylesheet" media="all" href="style.css" />
+    <title>Josué Poot — Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
     <link rel="shortcut icon" href="img/shortcut copy.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Rancho&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rancho&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Rancho&family=Winky+Rough:ital,wght@0,300..900;1,300..900&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
 
   <body>
-    <h1 class="inf">Josue Poot</h1>
-    <p class="text">
-      Hi!, welcome to my portfolio, here you will find all my personal,
-      institutional, and future projects, feel free to look at my information
-      and learn a little about my life.
-    </p>
-    <h2 class="sub">Skills:</h2>
-    <!-- Parte 1 de el banner -->
-    <div class="skils">
-      <div aria-hidden class="group">
-        <div class="card">
-          <div class="bx1">
-            <table class="data">
-              <th>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <span class="nav-brand">Josué Poot</span>
+      <div class="nav-links">
+        <a href="#skills">Skills</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="PestañaLogros/index.html" class="nav-cta">Achievements</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <span class="hero-tag">Software Engineering Student</span>
+        <h1 class="hero-name">Josué Poot</h1>
+        <p class="hero-subtitle">
+          Building things that matter, one commit at a time.
+        </p>
+        <p class="hero-desc">
+          Hey, glad you stopped by. This is where I keep everything — things
+          I've built, things I've learned, and where I'm headed. Take a look
+          around, hope you find something interesting.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="cta-btn primary">Get in touch</a>
+          <a href="PestañaLogros/index.html" class="cta-btn secondary"
+            >View achievements</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <h2 class="section-title">Skills</h2>
+      <p class="section-sub">
+        Things I know, things I'm getting better at, and things I'm still
+        figuring out.
+      </p>
+
+      <div class="skils">
+        <div class="track">
+          <!-- Group 1 -->
+          <div aria-hidden class="group">
+            <div class="card">
+              <div class="skill-card bx1">
                 <h3>Java</h3>
                 <p class="type">
-                  My academic journey in structured programming, object-oriented
-                  programming (OOP), and problem-solving.
+                  My academic journey in structured programming, OOP, and
+                  problem-solving.
                 </p>
-
-                <img class="img" src="img/java.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx2">
-            <table class="data">
-              <th>
-                <h3>HTML/CSS/JS</h3>
+                <img class="img" src="img/java.png" alt="Java" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx2">
+                <h3>HTML / CSS</h3>
                 <p class="type">
-                  Expanding my knowledge in web development technologies,
-                  currently strengthening my skills in JavaScript. JS.
+                  Expanding my web development skills, strengthening JavaScript
+                  knowledge.
                 </p>
-                <img class="img" src="img/image-Photoroom.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx3">
-            <table class="data">
-              <th>
+                <img class="img" src="img/image-Photoroom.png" alt="Web" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx3">
                 <h3>Python</h3>
                 <p class="type">
                   Continuously learning Python while developing personal
-                  projects to improve my practical skills.
+                  projects.
                 </p>
-                <img class="img" src="img/Python.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
+                <img class="img" src="img/Python.png" alt="Python" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx4">
                 <h3>Linux</h3>
                 <p class="type">
-                  I like the open-source environment and its advantages,
-                  learning while using Arch and AWS.
+                  I love the open-source world — learning while using Arch and
+                  AWS.
                 </p>
-                <img src="img/linux.png" class="img" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
-                <h3>The end it's only the begining</h3>
+                <img class="img" src="img/linux.png" alt="Linux" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx5">
+                <h3>Always Learning</h3>
                 <p class="type">
-                  I would like to learn more about new technologies and stay in
-                  continuous learning.
+                  Eager to explore new technologies and stay in continuous
+                  growth.
                 </p>
-                <img src="img/more.png" class="img" />
-              </th>
-            </table>
+                <img class="img" src="img/more.png" alt="More" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx6">
+                <h3>C# / .NET</h3>
+                <p class="type">
+                  ASP.NET Core MVC and Entity Framework. Used to build real web
+                  apps from scratch.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+                  alt="C#"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx7">
+                <h3>SQL</h3>
+                <p class="type">
+                  Relational databases, queries, and data management. Certified
+                  through DataCamp.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+                  alt="SQL"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx8">
+                <h3>Unity</h3>
+                <p class="type">
+                  Game development and interactive experiences. Where OOP meets
+                  graphics.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg"
+                  alt="Unity"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx9">
+                <h3>Git / GitHub</h3>
+                <p class="type">
+                  Version control daily driver. If it's not on GitHub, did it
+                  really happen?
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+                  alt="Git"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx10">
+                <h3>Bash</h3>
+                <p class="type">
+                  Command-line workflows and scripting. Daily use on Linux and
+                  macOS.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg"
+                  alt="Bash"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <!-- Parte 2 de el banner -->
-      <div aria-hidden class="group">
-        <div class="card">
-          <div class="bx1">
-            <table class="data">
-              <th>
+
+          <!-- Group 2 (duplicate for infinite loop) -->
+          <div aria-hidden class="group">
+            <div class="card">
+              <div class="skill-card bx1">
                 <h3>Java</h3>
                 <p class="type">
-                  My academic journey in structured programming, object-oriented
-                  programming (OOP), and problem-solving.
+                  My academic journey in structured programming, OOP, and
+                  problem-solving.
                 </p>
-
-                <img class="img" src="img/java.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx2">
-            <table class="data">
-              <th>
-                <h3>HTML/CSS/JS</h3>
+                <img class="img" src="img/java.png" alt="Java" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx2">
+                <h3>HTML / CSS / JS</h3>
                 <p class="type">
-                  Expanding my knowledge in web development technologies,
-                  currently strengthening my skills in JavaScript. JS.
+                  Expanding my web development skills, strengthening JavaScript
+                  knowledge.
                 </p>
-                <img class="img" src="img/image-Photoroom.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx3">
-            <table class="data">
-              <th>
+                <img class="img" src="img/image-Photoroom.png" alt="Web" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx3">
                 <h3>Python</h3>
                 <p class="type">
                   Continuously learning Python while developing personal
-                  projects to improve my practical skills.
+                  projects.
                 </p>
-                <img class="img" src="img/Python.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
+                <img class="img" src="img/Python.png" alt="Python" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx4">
                 <h3>Linux</h3>
                 <p class="type">
-                  I like the open-source environment and its advantages,
-                  learning while using Arch and AWS.
+                  I love the open-source world — learning while using Arch and
+                  AWS.
                 </p>
-                <img src="img/linux.png" class="img" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
-                <h3>The end it's only the begining</h3>
+                <img class="img" src="img/linux.png" alt="Linux" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx5">
+                <h3>Always Learning</h3>
                 <p class="type">
-                  I would like to learn more about new technologies and stay in
-                  continuous learning.
+                  Eager to explore new technologies and stay in continuous
+                  growth.
                 </p>
-                <img src="img/more.png" class="img" />
-              </th>
-            </table>
+                <img class="img" src="img/more.png" alt="More" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx6">
+                <h3>C# / .NET</h3>
+                <p class="type">
+                  ASP.NET Core MVC and Entity Framework. Used to build real web
+                  apps from scratch.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+                  alt="C#"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx7">
+                <h3>SQL</h3>
+                <p class="type">
+                  Relational databases, queries, and data management. Certified
+                  through DataCamp.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+                  alt="SQL"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx8">
+                <h3>Unity</h3>
+                <p class="type">
+                  Game development and interactive experiences. Where OOP meets
+                  graphics.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg"
+                  alt="Unity"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx9">
+                <h3>Git / GitHub</h3>
+                <p class="type">
+                  Version control daily driver. If it's not on GitHub, did it
+                  really happen?
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+                  alt="Git"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx10">
+                <h3>Bash</h3>
+                <p class="type">
+                  Command-line workflows and scripting. Daily use on Linux and
+                  macOS.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg"
+                  alt="Bash"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <!-- Parte 3 de el banner -->
-      <div aria-hidden class="group">
-        <div class="card">
-          <div class="bx1">
-            <table class="data">
-              <th>
+
+          <!-- Group 3 (triplicate for seamless loop) -->
+          <div aria-hidden class="group">
+            <div class="card">
+              <div class="skill-card bx1">
                 <h3>Java</h3>
                 <p class="type">
-                  My academic journey in structured programming, object-oriented
-                  programming (OOP), and problem-solving.
+                  My academic journey in structured programming, OOP, and
+                  problem-solving.
                 </p>
-
-                <img class="img" src="img/java.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx2">
-            <table class="data">
-              <th>
-                <h3>HTML/CSS/JS</h3>
+                <img class="img" src="img/java.png" alt="Java" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx2">
+                <h3>HTML / CSS / JS</h3>
                 <p class="type">
-                  Expanding my knowledge in web development technologies,
-                  currently strengthening my skills in JavaScript. JS.
+                  Expanding my web development skills, strengthening JavaScript
+                  knowledge.
                 </p>
-                <img class="img" src="img/image-Photoroom.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx3">
-            <table class="data">
-              <th>
+                <img class="img" src="img/image-Photoroom.png" alt="Web" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx3">
                 <h3>Python</h3>
                 <p class="type">
                   Continuously learning Python while developing personal
-                  projects to improve my practical skills.
+                  projects.
                 </p>
-                <img class="img" src="img/Python.png" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
+                <img class="img" src="img/Python.png" alt="Python" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx4">
                 <h3>Linux</h3>
                 <p class="type">
-                  I like the open-source environment and its advantages,
-                  learning while using Arch and AWS.
+                  I love the open-source world — learning while using Arch and
+                  AWS.
                 </p>
-                <img src="img/linux.png" class="img" />
-              </th>
-            </table>
-          </div>
-        </div>
-        <div class="card">
-          <div class="bx4">
-            <table class="data">
-              <th>
-                <h3>The end it's only the begining</h3>
+                <img class="img" src="img/linux.png" alt="Linux" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx5">
+                <h3>Always Learning</h3>
                 <p class="type">
-                  I would like to learn more about new technologies and stay in
-                  continuous learning.
+                  Eager to explore new technologies and stay in continuous
+                  growth.
                 </p>
-                <img src="img/more.png" class="img" />
-              </th>
-            </table>
+                <img class="img" src="img/more.png" alt="More" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx6">
+                <h3>C# / .NET</h3>
+                <p class="type">
+                  ASP.NET Core MVC and Entity Framework. Used to build real web
+                  apps from scratch.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+                  alt="C#"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx7">
+                <h3>SQL</h3>
+                <p class="type">
+                  Relational databases, queries, and data management. Certified
+                  through DataCamp.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+                  alt="SQL"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx8">
+                <h3>Unity</h3>
+                <p class="type">
+                  Game development and interactive experiences. Where OOP meets
+                  graphics.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg"
+                  alt="Unity"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx9">
+                <h3>Git / GitHub</h3>
+                <p class="type">
+                  Version control daily driver. If it's not on GitHub, did it
+                  really happen?
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+                  alt="Git"
+                />
+              </div>
+            </div>
+            <div class="card">
+              <div class="skill-card bx10">
+                <h3>Bash</h3>
+                <p class="type">
+                  Command-line workflows and scripting. Daily use on Linux and
+                  macOS.
+                </p>
+                <img
+                  class="img"
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg"
+                  alt="Bash"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Fin del banner -->
-    <div class="container">
-      <div class="bx1">
-        <table class="data">
-          <th>
-            <h3>Java</h3>
-            <p class="type">
-              My academic journey in structured programming, object-oriented
-              programming (OOP), and problem-solving.
-            </p>
-            <img class="img" src="img/java.png" />
-          </th>
-        </table>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 class="section-title left">About Me</h2>
+          <p class="about-p">
+            I'm Josué — friends call me Joss. I enjoy learning things, breaking
+            them, and figuring out why they broke. That's kind of my process.
+          </p>
+          <p class="about-p">
+            Pretty chill overall. I communicate well, I listen, and I don't give
+            up easily. I think those things matter more than people admit.
+          </p>
+          <p class="about-p">
+            Software engineering clicked for me because I like understanding how
+            things work under the hood — and then building something useful out
+            of that knowledge.
+          </p>
+          <p class="about-p">
+            If you work with me, you'll get honesty, effort, and someone who
+            genuinely cares about the work.
+          </p>
+        </div>
+        <div class="about-image">
+          <img src="img/berd.png" class="berd" alt="Josué" />
+        </div>
       </div>
-      <div class="bx2">
-        <table class="data">
-          <th>
-            <h3>HTML/CSS/JS</h3>
-            <p class="type">
-              Expanding my knowledge in web development technologies, currently
-              strengthening my skills in JavaScript. JS.
-            </p>
-            <img class="img" src="img/image-Photoroom.png" />
-          </th>
-        </table>
+    </section>
+
+    <!-- Contact / Info -->
+    <section id="contact">
+      <h2 class="section-title">My Information</h2>
+      <p class="section-sub">
+        Places to find me, read my work, or just say hi.
+      </p>
+      <div class="contact-grid">
+        <a
+          href="https://www.linkedin.com/in/josspoot/"
+          class="info-btn"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="info-btn-icon">in</span>
+          <span>LinkedIn</span>
+        </a>
+        <a
+          href="https://github.com/Josspoot"
+          class="info-btn"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="info-btn-icon">GH</span>
+          <span>GitHub</span>
+        </a>
+        <a
+          href="data/CV_JosuePoot.pdf"
+          class="info-btn"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="info-btn-icon">CV</span>
+          <span>My CV</span>
+        </a>
+        <a href="PestañaLogros/index.html" class="info-btn highlight">
+          <span class="info-btn-icon">🏆</span>
+          <span>Achievements</span>
+        </a>
       </div>
-      <div class="bx3">
-        <table class="data">
-          <th>
-            <h3>Python</h3>
-            <p class="type">
-              Continuously learning Python while developing personal projects to
-              improve my practical skills.
-            </p>
-            <img class="img" src="img/Python.png" />
-          </th>
-        </table>
-      </div>
-      <div class="bx4">
-        <table class="data">
-          <th>
-            <h3>Linux</h3>
-            <p class="type">
-              I like the open-source environment and its advantages, learning
-              while using Arch and AWS.
-            </p>
-            <img src="img/linux.png" class="img" />
-          </th>
-        </table>
-      </div>
-      <div class="bx4">
-        <table class="data">
-          <th>
-            <h3>The end it's only the begining</h3>
-            <p class="type">
-              I would like to learn more about new technologies and stay in
-              continuous learning.
-            </p>
-            <img src="img/more.png" class="img" />
-          </th>
-        </table>
-      </div>
-    </div>
-    <!--- fin de las tablas --->
-    <br />
-    <br />
-    <h2 class="sub">About me</h2>
-    <p class="text">
-      As you can see, I'm Josue. Some friends of mine call me Joss. I like to
-      learn and also fail, because that’s when we really do our best to improve.
-    </p>
-    <p class="text">
-      I can describe myself as a positive and chill guy. I do my best to find
-      solutions, and I have soft skills like communication, understanding
-      others, and patience.
-    </p>
-    <p class="text">
-      I like software engineering because I enjoy solving problems, creating
-      useful tools, and understanding how the apps and things we use every day
-      are built.
-    </p>
-    <p class="text">
-      I can offer others some of the qualities I have, like honesty, loyalty,
-      friendship, and the best of me.
-    </p>
-    <img src="img/berd.png" class="berd" />
-    <h2 class="sub">My information</h2>
-    <p class="text">
-      Here you will find information about my career and the topics I like.
-    </p>
-    <br />
-    <br />
-    <div class="container">
-      <a
-        href="https://www.linkedin.com/in/josspoot/"
-        style="text-decoration: none"
-      >
-        <div class="btn from-top">LinkedIn</div>
-      </a>
-      <a href="https://github.com/Josspoot" style="text-decoration: none">
-        <div class="btn from-left">GitHub</div>
-      </a>
-      <a href="data/CV_JosuePoot.pdf" style="text-decoration: none">
-        <div class="btn from-center">My CV (in process 🏃‍♂️)</div>
-      </a>
-      <a href="PestañaLogros/index.html" style="text-decoration: none">
-        <div class="btn from-bottom">Achievements</div>
-      </a>
-    </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        © 2026 Josué Poot &nbsp;·&nbsp; Software Engineering Student
+        &nbsp;·&nbsp; Mérida, Yucatán
+      </p>
+    </footer>
   </body>
 </html>
