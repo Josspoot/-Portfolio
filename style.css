@@ -112,6 +112,9 @@ body::after {
 
 /* Alternating section tints for depth */
 #skills {
+  background: transparent;
+}
+#about {
   background: linear-gradient(
     180deg,
     transparent 0%,
@@ -119,9 +122,6 @@ body::after {
     rgba(16, 27, 47, 0.72) 88%,
     transparent 100%
   );
-}
-#about {
-  background: transparent;
 }
 #contact {
   background: linear-gradient(
@@ -693,228 +693,327 @@ section {
   margin: 0.5rem 0 3rem;
 }
 
-/* ===== SKILLS CAROUSEL ===== */
-.skils {
-  display: flex;
-  overflow: hidden;
-  padding-block: 18px;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 8%,
-    black 92%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 8%,
-    black 92%,
-    transparent
-  );
+/* ===== SKILLS — 3D KEYCAP BOARD =====
+   An isometric keyboard where every keycap is a skill. Built out of real CSS 3D
+   transforms (a top face plus two extruded walls per cap) rather than a library,
+   so it stays a plain static page. */
+
+.kb-hint {
+  display: inline-block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-l);
+  opacity: 0.85;
 }
 
-.track {
-  display: flex;
-  animation: scroll-left 60s linear infinite;
+.keeb {
+  margin-top: -1.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+  align-items: center;
+  gap: 2rem;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
-/* Let people actually read a card they're interested in */
-.skils:hover .track {
-  animation-play-state: paused;
-}
-
-.group {
-  display: flex;
-  align-items: stretch;
-  gap: 1rem;
-  padding-right: 1rem;
-  flex-shrink: 0;
-}
-
-@keyframes scroll-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    /* Shift by exactly the width of one group (1 of 3 identical copies),
-       so the loop wraps seamlessly without copies drifting out of sync. */
-    transform: translateX(calc(-100% / 3));
-  }
-}
-
-.card {
-  flex: 0 0 220px;
-  height: 340px;
-}
-
-.skill-card {
-  height: 100%;
-  padding: 1.6rem 1.1rem;
-  background:
-    linear-gradient(
-      165deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0) 45%
-    ),
-    var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: 18px;
-  text-align: center;
+/* ---------- the readout that names the pressed key ---------- */
+.kb-readout {
+  min-height: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 6px 22px rgba(4, 9, 20, 0.35);
+  transform: rotate(-7deg);
+}
+
+.kb-readout-name {
+  font-family: cursive;
+  font-size: clamp(2.8rem, 6.2vw, 5.4rem);
+  line-height: 1.05;
+  color: var(--white);
+  /* A short stack only: the script face has thin strokes, and the deep
+     extrusion this used to carry (built for a heavy sans) filled them in. */
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.5),
+    2px 2px 0 rgba(0, 0, 0, 0.42),
+    3px 3px 0 rgba(0, 0, 0, 0.3),
+    0 18px 44px rgba(var(--kc-rgb, 79, 141, 255), 0.5);
   transition:
-    transform 0.4s var(--ease),
-    box-shadow 0.4s var(--ease),
-    border-color 0.4s var(--ease),
-    background 0.4s var(--ease);
-  cursor: default;
+    color 0.35s var(--ease),
+    text-shadow 0.35s var(--ease);
 }
 
-/* Top accent bar */
-.skill-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 18px 18px 0 0;
-  background: var(--c, var(--blue));
-  box-shadow: 0 0 18px var(--c, var(--blue));
+.kb-readout-note {
+  margin-top: 1.2rem;
+  max-width: 34ch;
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
-/* Radial wash that lights up on hover */
-.skill-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    90% 70% at 50% 0%,
-    rgba(var(--c-rgb, 79, 141, 255), 0.22),
-    transparent 70%
-  );
+/* the swap gets a quick fade so the text doesn't pop */
+.kb-readout.is-swapping .kb-readout-name,
+.kb-readout.is-swapping .kb-readout-note {
   opacity: 0;
-  transition: opacity 0.4s var(--ease);
+  transform: translateY(10px);
+}
+
+.kb-readout-name,
+.kb-readout-note {
+  transition:
+    opacity 0.16s var(--ease),
+    transform 0.16s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.keeb.is-active .kb-readout-name {
+  color: var(--kc, var(--white));
+}
+
+/* ---------- the board ---------- */
+.kb-stage {
+  perspective: 1500px;
+  perspective-origin: 50% 46%;
+  display: grid;
+  place-items: center;
+  padding: 0 0 0.5rem;
+}
+
+.kb-board {
+  position: relative;
+  transform-style: preserve-3d;
+  /* --rx / --rz are nudged by the pointer in main.js */
+  transform: rotateX(calc(56deg + var(--rx, 0deg)))
+    rotateZ(calc(-38deg + var(--rz, 0deg)));
+  transition: transform 0.45s var(--ease);
+  display: grid;
+  gap: 5px;
+}
+
+/* the plate the caps sit on */
+.kb-deck {
+  position: absolute;
+  /* extra room on the right for the row stagger */
+  inset: -24px -46px -28px -24px;
+  border-radius: 22px;
+  background: linear-gradient(150deg, #131c2e, #0a1120);
+  border: 1px solid rgba(124, 176, 255, 0.12);
+  transform: translateZ(-14px);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+}
+
+.kb-row {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 5px;
+  transform-style: preserve-3d;
+  /* keyboard-style stagger, one step per row */
+  transform: translateX(calc(var(--row) * 16px));
+}
+
+/* ---------- one keycap ---------- */
+.key {
+  --depth: 27px;
+  --size: 88px;
+  /* Walls lean inwards by --lean, which is what turns a plain box into a
+     keycap. sin(15deg) and cos(15deg) are inlined so only --depth ever has to
+     change per breakpoint. */
+  --lean: 15deg;
+  --taper: calc(var(--depth) * 0.2588);
+  --rise: calc(var(--depth) * 0.9659);
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  padding: 0;
+  border: 0;
+  background: none;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition: transform 0.16s var(--ease);
+  cursor: pointer;
+  font: inherit;
+}
+
+/* ---------- the four walls of a cap ----------
+   Each one is a flat rect living in the board plane, folded up 90deg about the
+   edge it shares with the cap so it spans z = 0 (the deck) to z = depth (the
+   top face). Rendering all four means edge caps show a real side instead of a
+   hole; the ones facing away are simply occluded. */
+.k-side {
+  position: absolute;
+  background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.34) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    var(--k, #1c2740);
   pointer-events: none;
 }
 
-.skill-card:hover::after {
-  opacity: 1;
+.k-n,
+.k-s {
+  left: 0;
+  width: var(--size);
+  height: var(--depth);
 }
 
-/* Per-card accent colors */
-.skill-card.bx1 {
-  --c: var(--amber);
-  --c-rgb: 251, 191, 36;
-}
-.skill-card.bx2 {
-  --c: var(--blue);
-  --c-rgb: 79, 141, 255;
-}
-.skill-card.bx3 {
-  --c: var(--cyan);
-  --c-rgb: 34, 211, 238;
-}
-.skill-card.bx4 {
-  --c: var(--emerald);
-  --c-rgb: 52, 211, 153;
-}
-.skill-card.bx5 {
-  --c: var(--violet);
-  --c-rgb: 167, 139, 250;
-}
-.skill-card.bx6 {
-  --c: var(--rose);
-  --c-rgb: 251, 113, 133;
-}
-.skill-card.bx7 {
-  --c: var(--blue);
-  --c-rgb: 79, 141, 255;
-}
-.skill-card.bx8 {
-  --c: var(--orange);
-  --c-rgb: 251, 146, 60;
-}
-.skill-card.bx9 {
-  --c: var(--amber);
-  --c-rgb: 251, 191, 36;
-}
-.skill-card.bx10 {
-  --c: var(--emerald);
-  --c-rgb: 52, 211, 153;
+.k-e,
+.k-w {
+  top: 0;
+  width: var(--depth);
+  height: var(--size);
 }
 
-.skill-card h3 {
-  position: relative;
-  z-index: 1;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-  transition: color 0.3s var(--ease);
+/* y = 0 of each wall sits on the deck, y = 100% meets the cap, so pinching the
+   far edge is what gives the cap its sloped keycap sides. */
+.k-n {
+  top: calc(-1 * var(--depth));
+  transform-origin: 50% 100%;
+  transform: rotateX(calc(-90deg - var(--lean)));
+  filter: brightness(0.78);
+  clip-path: polygon(
+    var(--taper) 0,
+    calc(100% - var(--taper)) 0,
+    100% 100%,
+    0 100%
+  );
 }
 
-.skill-card .type {
-  position: relative;
-  z-index: 1;
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.6;
-  transition: color 0.3s var(--ease);
+.k-s {
+  top: 100%;
+  transform-origin: 50% 0;
+  transform: rotateX(calc(90deg + var(--lean)));
+  filter: brightness(0.66);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    calc(100% - var(--taper)) 100%,
+    var(--taper) 100%
+  );
 }
 
-.skill-card .img {
-  position: relative;
-  z-index: 1;
-  width: 85px;
-  height: 80px;
-  object-fit: contain;
-  margin: 0 auto;
-  transition:
-    transform 0.45s var(--ease),
-    filter 0.45s var(--ease);
+.k-e {
+  left: 100%;
+  transform-origin: 0 50%;
+  transform: rotateY(calc(-90deg - var(--lean)));
+  filter: brightness(0.52);
+  clip-path: polygon(
+    0 0,
+    100% var(--taper),
+    100% calc(100% - var(--taper)),
+    0 100%
+  );
 }
 
-.skill-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--c, var(--blue));
+.k-w {
+  left: calc(-1 * var(--depth));
+  transform-origin: 100% 50%;
+  transform: rotateY(calc(90deg + var(--lean)));
+  filter: brightness(0.72);
+  clip-path: polygon(
+    0 var(--taper),
+    100% 0,
+    100% 100%,
+    0 calc(100% - var(--taper))
+  );
+}
+
+.k-top {
+  position: absolute;
+  /* A 4px lip past where the walls land. Without it the rounded corners of this
+     face leave the sharp corner of the two walls behind it uncovered, and the
+     background shows through as a notch. Real caps have the lip anyway. */
+  inset: calc(var(--taper) - 4px);
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  transform: translateZ(var(--rise));
+  background:
+    radial-gradient(
+      120% 100% at 30% 12%,
+      rgba(255, 255, 255, 0.32) 0%,
+      rgba(255, 255, 255, 0.06) 42%,
+      rgba(0, 0, 0, 0.14) 100%
+    ),
+    var(--k, #1c2740);
   box-shadow:
-    0 0 0 1px rgba(var(--c-rgb, 79, 141, 255), 0.4),
-    0 18px 50px rgba(var(--c-rgb, 79, 141, 255), 0.3),
-    0 0 90px rgba(var(--c-rgb, 79, 141, 255), 0.12);
+    inset 0 -3px 7px rgba(0, 0, 0, 0.28),
+    inset 0 2px 5px rgba(255, 255, 255, 0.26),
+    inset 0 0 22px rgba(0, 0, 0, 0.14);
 }
 
-.skill-card:hover .img {
-  transform: translateY(-4px) scale(1.09);
-  filter: drop-shadow(0 8px 18px rgba(var(--c-rgb, 79, 141, 255), 0.45));
+.k-icon {
+  width: 42%;
+  height: 42%;
+  object-fit: contain;
+  /* every logo becomes a white silhouette, the way the reference caps read */
+  filter: brightness(0) invert(1);
+  opacity: 0.94;
+  pointer-events: none;
 }
 
-.skill-card:hover h3 {
-  color: var(--white);
-}
-.skill-card:hover .type {
-  color: #c7d6ea;
-}
-
-/* Unity icon is dark/white — invert it on dark background */
-.skill-card.bx8 .img {
-  filter: brightness(0) invert(0.85);
-}
-.skill-card.bx8:hover .img {
-  filter: brightness(0) invert(1)
-    drop-shadow(0 8px 18px rgba(251, 146, 60, 0.5));
+.k-glyph {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #fff;
+  opacity: 0.94;
+  pointer-events: none;
 }
 
-.skill-card:active {
-  transform: translateY(-4px);
-  transition: transform 0.1s;
+/* the name is read by assistive tech but never painted */
+.k-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.key-blank {
+  cursor: default;
+}
+
+.key-blank .k-top {
+  background: linear-gradient(160deg, #1a2438, #121b2c);
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.key-blank .k-side {
+  background: #141d2f;
+}
+
+/* ---------- pressed / hovered ---------- */
+.key:not(.key-blank):hover,
+.key:not(.key-blank):focus-visible,
+.key.is-pressed {
+  transform: translateZ(-14px);
+  outline: none;
+}
+
+.key:not(.key-blank):hover .k-top,
+.key:not(.key-blank):focus-visible .k-top,
+.key.is-pressed .k-top {
+  box-shadow:
+    inset 0 -2px 5px rgba(0, 0, 0, 0.35),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
+    0 0 30px 6px rgba(var(--kc-rgb, 255, 255, 255), 0.32);
+}
+
+.key:focus-visible .k-top {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+/* everything dims a little while one cap holds the spotlight */
+.keeb.is-active .key:not(.key-blank):not(.is-pressed):not(:hover) .k-top {
+  filter: saturate(0.78) brightness(0.85);
+  transition: filter 0.3s var(--ease);
 }
 
 /* ===== ABOUT ===== */
@@ -936,6 +1035,8 @@ section {
 }
 
 .about-image {
+  transform: translateY(var(--py, 0px));
+  transition: transform 0.18s linear;
   position: relative;
 }
 
@@ -1073,7 +1174,7 @@ section {
   font-size: 0.8rem;
   font-weight: 800;
   flex-shrink: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   transition:
     transform 0.35s var(--ease),
     background 0.35s var(--ease);
@@ -1374,6 +1475,795 @@ section {
 }
 
 /* ===== RESPONSIVE ===== */
+/* ===== JOURNEY / TIMELINE ===== */
+#journey {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(16, 27, 47, 0.55) 10%,
+    rgba(16, 27, 47, 0.55) 90%,
+    transparent 100%
+  );
+}
+
+.timeline {
+  position: relative;
+  max-width: 1120px;
+  margin: 1rem auto 0;
+}
+
+/* The spine */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(124, 176, 255, 0.55) 8%,
+    rgba(124, 176, 255, 0.55) 92%,
+    transparent 100%
+  );
+  box-shadow: 0 0 22px rgba(79, 141, 255, 0.35);
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.tl-item:last-child {
+  margin-bottom: 0;
+}
+
+.tl-visual {
+  grid-column: 1;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  background:
+    radial-gradient(
+      120% 100% at 20% 0%,
+      rgba(var(--c-rgb), 0.28) 0%,
+      transparent 62%
+    ),
+    linear-gradient(160deg, var(--surface-2) 0%, var(--bg-alt) 100%);
+  box-shadow: var(--shadow-lift);
+  display: grid;
+  place-items: center;
+  /* --py is the scroll parallax offset set by main.js; the hover lift composes
+     on top of it instead of overwriting it. Kept short so it tracks the scroll. */
+  transform: translateY(var(--py, 0px));
+  transition:
+    transform 0.18s linear,
+    border-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+/* Faint grid inside the panel so it reads as a surface, not a flat block */
+.tl-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(124, 176, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 176, 255, 0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000, transparent 85%);
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    #000,
+    transparent 85%
+  );
+}
+
+.tl-visual-year {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: rgba(var(--c-rgb), 0.2);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Sits in the corner so it never lands on top of the year watermark */
+.tl-visual-glyph {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  border-radius: 11px;
+  background: rgba(var(--c-rgb), 0.14);
+  border: 1px solid rgba(var(--c-rgb), 0.34);
+  filter: drop-shadow(0 6px 16px rgba(var(--c-rgb), 0.45));
+}
+
+.tl-item:nth-child(even) .tl-visual-glyph {
+  left: auto;
+  right: 0.9rem;
+}
+
+.tl-item:hover .tl-visual {
+  transform: translateY(calc(var(--py, 0px) - 6px));
+  border-color: rgba(var(--c-rgb), 0.55);
+  box-shadow:
+    0 0 0 1px rgba(var(--c-rgb), 0.35),
+    0 22px 60px rgba(var(--c-rgb), 0.25);
+}
+
+/* The dot on the spine */
+.tl-node {
+  grid-column: 2;
+  justify-self: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--c);
+  box-shadow:
+    0 0 0 4px rgba(var(--c-rgb), 0.12),
+    0 0 22px rgba(var(--c-rgb), 0.7);
+  transition: box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.tl-item:hover .tl-node {
+  transform: scale(1.25);
+  box-shadow:
+    0 0 0 6px rgba(var(--c-rgb), 0.18),
+    0 0 34px rgba(var(--c-rgb), 0.9);
+}
+
+.tl-content {
+  grid-column: 3;
+}
+
+/* Every other row flips sides, mirroring down the spine */
+.tl-item:nth-child(even) .tl-visual {
+  grid-column: 3;
+}
+.tl-item:nth-child(even) .tl-content {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
+}
+
+.tl-eyebrow {
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c);
+  margin-bottom: 0.9rem;
+}
+
+.tl-title {
+  font-family: cursive;
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.55rem;
+}
+
+.tl-role {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.tl-desc {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #b7c6dd;
+  max-width: 46ch;
+}
+
+.tl-item:nth-child(even) .tl-desc {
+  margin-left: auto;
+}
+
+/* ===== PROJECT GALLERY ===== */
+#projects {
+  overflow: hidden;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.gallery-eyebrow {
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--blue-l);
+  margin-bottom: 1.2rem;
+}
+
+.gallery-title {
+  font-family: cursive;
+  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.gallery-title .dot {
+  color: var(--blue);
+  text-shadow: 0 0 24px rgba(79, 141, 255, 0.8);
+}
+
+.gallery-rule {
+  display: block;
+  width: 72px;
+  height: 3px;
+  border-radius: 999px;
+  margin: 1.6rem 0;
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--violet));
+  background-size: 200% auto;
+  box-shadow: 0 0 16px rgba(79, 141, 255, 0.5);
+  animation: hue-slide 5s linear infinite;
+}
+
+.gallery-desc {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+.gallery-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.gal-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition:
+    transform 0.3s var(--ease),
+    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    opacity 0.3s var(--ease);
+}
+
+.gal-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--blue), #3f6fe0);
+  border-color: var(--blue);
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(79, 141, 255, 0.4);
+}
+
+.gal-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.gal-btn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+/* Clones that exist only to make the loop seamless */
+.proj-card.is-clone {
+  opacity: 1;
+  transform: none;
+}
+
+.gallery-rail {
+  cursor: grab;
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  /* No scroll-snap and no CSS smooth scrolling here: main.js advances
+     scrollLeft every frame, and either one would fight that loop. The arrow
+     buttons ask for smooth behaviour per-call instead. */
+  padding: 1.2rem 0.4rem 1.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.gallery-rail:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+
+.gallery-rail::-webkit-scrollbar {
+  height: 6px;
+}
+.gallery-rail::-webkit-scrollbar-track {
+  background: rgba(124, 176, 255, 0.07);
+  border-radius: 999px;
+}
+.gallery-rail::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+.gallery-rail::-webkit-scrollbar-thumb:hover {
+  background: var(--blue);
+}
+
+.proj-card {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0) 45%
+    ),
+    var(--surface);
+  box-shadow: 0 6px 22px rgba(4, 9, 20, 0.35);
+  transition:
+    transform 0.45s var(--ease),
+    border-color 0.45s var(--ease),
+    box-shadow 0.45s var(--ease);
+}
+
+.proj-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(var(--c-rgb), 0.6);
+  box-shadow:
+    0 0 0 1px rgba(var(--c-rgb), 0.35),
+    0 22px 55px rgba(var(--c-rgb), 0.28);
+}
+
+.proj-media {
+  position: relative;
+  height: 168px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(
+      110% 90% at 50% 0%,
+      rgba(var(--c-rgb), 0.3) 0%,
+      transparent 65%
+    ),
+    linear-gradient(160deg, var(--surface-2), var(--bg-alt));
+  border-bottom: 1px solid var(--border-soft);
+  overflow: hidden;
+}
+
+.proj-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(124, 176, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 176, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.proj-icon {
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 22px rgba(var(--c-rgb), 0.45));
+  transform: translateY(var(--py, 0px));
+  /* Linear and short, so it tracks the scroll instead of lagging behind it */
+  transition: transform 0.18s linear;
+}
+
+/* Django's mark ships nearly black — lift it onto the dark panel */
+.proj-icon.invert {
+  filter: brightness(0) invert(0.88)
+    drop-shadow(0 8px 22px rgba(var(--c-rgb), 0.45));
+}
+
+.proj-card:hover .proj-icon {
+  transform: translateY(calc(var(--py, 0px) - 4px)) scale(1.08);
+}
+
+.proj-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.4rem 1.4rem 1.5rem;
+}
+
+.proj-index {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c);
+  margin-bottom: 0.6rem;
+}
+
+.proj-name {
+  font-family: cursive;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.7rem;
+}
+
+.proj-desc {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+}
+
+.proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.3rem;
+}
+
+.proj-tag {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  color: #c7d6ea;
+  background: rgba(var(--c-rgb), 0.12);
+  border: 1px solid rgba(var(--c-rgb), 0.28);
+}
+
+/* Push the buttons to the bottom so cards of different text length line up */
+.proj-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+.proj-link {
+  flex: 1;
+  text-align: center;
+  padding: 0.62rem 0.9rem;
+  border-radius: 10px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.proj-link:hover {
+  background: rgba(var(--c-rgb), 0.18);
+  border-color: rgba(var(--c-rgb), 0.6);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.proj-link.demo {
+  background: rgba(var(--c-rgb), 0.16);
+  border-color: rgba(var(--c-rgb), 0.4);
+}
+
+/* ===== CONTACT FORM ===== */
+.form-wrap {
+  max-width: 720px;
+  margin: 3.5rem auto 0;
+}
+
+.contact-form {
+  position: relative;
+  padding: 2.2rem 2rem 2rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-soft);
+  background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0)
+    ),
+    var(--surface);
+  box-shadow: var(--shadow-lift);
+  backdrop-filter: blur(6px);
+}
+
+.form-title {
+  font-family: cursive;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.form-lead {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+
+.form-field {
+  margin-bottom: 1.1rem;
+}
+
+.form-field label {
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: rgba(8, 14, 26, 0.55);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #6b7f9c;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: rgba(8, 14, 26, 0.8);
+  box-shadow: 0 0 0 3px rgba(79, 141, 255, 0.18);
+}
+
+/* Only flag a field once the browser has something invalid to report */
+.form-field input:user-invalid,
+.form-field textarea:user-invalid {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.16);
+}
+
+.form-btn {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.95rem 1.4rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue), #3f6fe0);
+  color: var(--white);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(79, 141, 255, 0.35);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+.form-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s var(--ease);
+}
+
+.form-btn:hover::before {
+  left: 140%;
+}
+
+.form-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 46px rgba(79, 141, 255, 0.48);
+}
+
+.form-btn:active {
+  transform: translateY(-1px);
+  transition: transform 0.1s;
+}
+
+.form-note {
+  min-height: 1.4rem;
+  margin-top: 0.9rem;
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.form-note.error {
+  color: var(--rose);
+}
+
+.form-note a {
+  color: var(--blue-l);
+}
+
+@media (max-width: 1080px) {
+  /* Board above, readout below — the caps need the full width by now */
+  .keeb {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .kb-readout {
+    order: 2;
+    min-height: 0;
+    margin-top: 1.4rem;
+    text-align: center;
+    transform: none;
+  }
+
+  .kb-readout-note {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .key {
+    --size: 68px;
+    --depth: 21px;
+  }
+}
+
+@media (max-width: 620px) {
+  .key {
+    --size: 46px;
+    --depth: 14px;
+  }
+
+  .kb-board,
+  .kb-row {
+    gap: 6px;
+  }
+
+  .kb-row {
+    transform: translateX(calc(var(--row) * 10px));
+  }
+
+  .kb-deck {
+    inset: -16px -34px -18px -16px;
+    border-radius: 14px;
+  }
+
+  .k-glyph {
+    font-size: 0.95rem;
+  }
+
+  .kb-stage {
+    padding: 0.5rem 0 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Timeline collapses to a single left-hand spine */
+  .timeline::before {
+    left: 18px;
+  }
+
+  .tl-item {
+    grid-template-columns: 36px 1fr;
+    gap: 0 1.3rem;
+    margin-bottom: 3.2rem;
+  }
+
+  .tl-node {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-self: start;
+    margin-top: 0.5rem;
+  }
+
+  .tl-visual,
+  .tl-item:nth-child(even) .tl-visual {
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 1.3rem;
+  }
+
+  .tl-content,
+  .tl-item:nth-child(even) .tl-content {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left;
+  }
+
+  .tl-item:nth-child(even) .tl-desc {
+    margin-left: 0;
+  }
+
+  /* Every card is on the same side now, so keep the glyph there too */
+  .tl-item:nth-child(even) .tl-visual-glyph {
+    left: 0.9rem;
+    right: auto;
+  }
+
+  .tl-desc {
+    max-width: none;
+  }
+
+  /* Gallery intro sits above the rail */
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .gallery-desc {
+    max-width: none;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 0.8rem 4%;
@@ -1414,6 +2304,19 @@ section {
     display: none;
   }
 
+  .proj-card {
+    flex: 0 0 278px;
+  }
+
+  .gal-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .contact-form {
+    padding: 1.7rem 1.25rem 1.5rem;
+  }
+
   body::after {
     background-size: 44px 44px;
   }
@@ -1451,5 +2354,21 @@ section {
   [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  /* The board holds still and the caps stop reacting to the pointer tilt */
+  .kb-board {
+    --rx: 0deg !important;
+    --rz: 0deg !important;
+  }
+
+  .gallery-rail {
+    scroll-behavior: auto;
+  }
+
+  .tl-visual,
+  .about-image,
+  .proj-icon {
+    --py: 0px !important;
   }
 }
