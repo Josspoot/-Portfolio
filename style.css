@@ -1526,6 +1526,7 @@ section {
 .tl-visual {
   grid-column: 1;
   position: relative;
+  isolation: isolate;
   aspect-ratio: 16 / 9;
   border-radius: 14px;
   overflow: hidden;
@@ -1566,6 +1567,84 @@ section {
   );
 }
 
+/* ---------- a panel carrying a photo ---------- */
+.tl-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* --focus keeps the subject in frame when a tall photo is cropped to 16:9 */
+  object-position: 50% var(--focus, 50%);
+  /* Sits behind the veil, the year and the glyph */
+  z-index: 0;
+}
+
+/* The grid pattern is for empty panels; a photo gets a veil instead, so the
+   year and the glyph stay readable whatever the picture looks like. */
+.tl-visual.has-photo::before {
+  background-image: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(6, 11, 20, 0.82) 0%,
+      rgba(6, 11, 20, 0.3) 30%,
+      transparent 62%
+    ),
+    linear-gradient(
+      140deg,
+      rgba(var(--c-rgb), 0.28) 0%,
+      transparent 55%
+    );
+  mask-image: none;
+  -webkit-mask-image: none;
+  z-index: 1;
+}
+
+/* Over a photo the tinted chip washes out, so it gets a dark frosted plate
+   instead — the emoji has to read against a bright sky just as well as a dark
+   room. */
+.tl-visual.has-photo .tl-visual-glyph {
+  z-index: 3;
+  font-size: 1.3rem;
+  background: rgba(6, 11, 20, 0.58);
+  border-color: rgba(var(--c-rgb), 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  filter: none;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(var(--c-rgb), 0.3);
+}
+
+/* Over a photo the year stops being a watermark and becomes a caption */
+.tl-visual.has-photo .tl-visual-year {
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: block;
+  padding: 0 1.1rem 0.9rem;
+  text-align: left;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.tl-item:nth-child(even) .tl-visual.has-photo .tl-visual-year {
+  text-align: right;
+}
+
+/* A touch of lift on hover, matching the panel itself */
+.tl-visual.has-photo .tl-photo {
+  transition: transform 0.6s var(--ease);
+}
+
+.tl-item:hover .tl-visual.has-photo .tl-photo {
+  transform: scale(1.05);
+}
+
 .tl-visual-year {
   position: absolute;
   inset: 0;
@@ -1596,6 +1675,24 @@ section {
   background: rgba(var(--c-rgb), 0.14);
   border: 1px solid rgba(var(--c-rgb), 0.34);
   filter: drop-shadow(0 6px 16px rgba(var(--c-rgb), 0.45));
+}
+
+/* Line icons drawn on a 24x24 grid; they inherit the entry's accent colour */
+.tl-visual-glyph svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Over a photo the stroke needs a little more weight and a shadow to separate
+   it from whatever is behind the frosted plate. */
+.tl-visual.has-photo .tl-visual-glyph svg {
+  stroke-width: 1.85;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.65));
 }
 
 .tl-item:nth-child(even) .tl-visual-glyph {
@@ -2264,16 +2361,28 @@ section {
   }
 }
 
-@media (max-width: 768px) {
+/* Six items share the bar now, so it starts compacting well above the old
+   768px mark — at 769px the links were within 19px of the brand. */
+@media (max-width: 900px) {
   .navbar {
-    padding: 0.8rem 4%;
+    padding: 0.9rem 4%;
+    gap: 0.75rem;
   }
   .nav-links {
-    gap: 1rem;
+    gap: 0.9rem;
   }
   .nav-links a {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
+  .nav-brand {
+    font-size: 1.15rem;
+  }
+  .nav-cta {
+    padding: 0.4rem 0.85rem !important;
+  }
+}
+
+@media (max-width: 768px) {
 
   section {
     padding: 3.5rem 4%;
@@ -2322,10 +2431,15 @@ section {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 620px) {
+  /* Six links plus the brand stop fitting here — measured, they start
+     overlapping the name around 600px. Only the Achievements button stays. */
   .nav-links a:not(.nav-cta) {
     display: none;
   }
+}
+
+@media (max-width: 480px) {
   .contact-grid {
     grid-template-columns: 1fr;
   }

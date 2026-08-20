@@ -266,7 +266,11 @@
           });
         });
       },
-      { threshold: 0.3, rootMargin: "-20% 0px -50% 0px" }
+      // A thin band across the middle of the screen acts as a reading line, and
+      // whichever section crosses it is the current one. The old rule asked for
+      // 30% of the *section* to be inside that band, which a tall section like
+      // the timeline can never manage — so no link ever lit up.
+      { threshold: 0, rootMargin: "-45% 0px -50% 0px" }
     );
 
     Array.prototype.forEach.call(sections, function (section) {
